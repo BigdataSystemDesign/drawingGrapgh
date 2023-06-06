@@ -8,10 +8,10 @@ import urllib.parse
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 plt.rcParams['font.family'] = 'Malgun Gothic'
-
+path='C:/Users/jmjun/OneDrive/바탕 화면/4학년 1학기/빅데이터시스템/유튜브 트렌드 프로젝트/graph_folder/'
 #1)2023년 4월에 조회수가 많은 장르 순으로 조회하기
-start_date = datetime(2023, 3, 1)
-end_date = datetime(2023, 3, 30, 23, 59, 59, 999000)
+start_date = datetime(2023, 4, 1)
+end_date = datetime(2023, 4, 30, 23, 59, 59, 999000)
 category={
    "1": "영화 & 애니메이션",
    "2": "자동차 & 차량",
@@ -46,32 +46,18 @@ category={
    "43": "쇼",
    "44": "예고편"
 }
-query2=[
-  {
-    "$match": {
-      "categoryId": 24,
-      "publishedAt": {
-        "$gte": start_date,
-        "$lte": end_date
-      }
-    }
-  },
+
+query6=[
   {
     "$group": {
-      "_id": "$channelTitle",
-      "averageViewCount": {"$avg": "$view_count"}
+      "_id": "$categoryId",
+      "totalComments": {"$sum": "$comment_count" }
     }
   },
   {
-    "$sort": {
-      "averageViewCount": -1
-    }
-  },
-  {
-    "$limit": 20
+    "$sort": {"totalComments": -1 }
   }
 ]
-
 
 
 def main():
@@ -83,30 +69,32 @@ def main():
     pwd = "admin"
     db = "admin"
     client = pymongo.MongoClient(f'mongodb://{user}:{urllib.parse.quote_plus(pwd)}@{host}:{port}/{db}')
-
+    print(1)
     db_conn = client.get_database(db)
     collection = db_conn.get_collection("youtube")
-
-    result = collection.aggregate(query2)
+    print(2)
+    result = collection.aggregate(query6)
 
     print(type(result))
     # 결과 출력
     X_id = []
-    y_averageViewCount = []
+    y_totalComments = []
 
     for document in result:
-
-        X_id.append(str(document["_id"]))
-        y_averageViewCount.append(document["averageViewCount"])
-        print(str(document["_id"]))
+        X_id.append(category[str(document["_id"])])
+        y_totalComments.append(document["totalComments"])
     print(X_id)
-    print(y_averageViewCount)
+    print(y_totalComments)
     # 막대 그래프 그리기
-    plt.bar(X_id, y_averageViewCount)
-    plt.xlabel('채널명')
-    plt.ylabel('평균조회수')
+    plt.bar(X_id, y_totalComments)
+    plt.xlabel('장르명')
+    plt.ylabel('totalViewCount')
     plt.xticks(X_id)
     plt.xticks(rotation=90)
-    plt.title('장르가 24(엔터테인먼트)인 채널 중 2023년 3월1일부터 2023년 3월 31일까지 올라온 영상의 조회수 평균이 높은 순으로 20개 채널 조회')
+    plt.title('장르별 댓글이 가장 많은순 조회 ')
+    plt.savefig(path+'1번.png')
     plt.show()
+
+
+
 main()
