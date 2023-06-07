@@ -116,7 +116,9 @@ def main():
     print(y_totalAvg)
     # 막대 그래프 그리기
 
-    plt.pie(y_totalAvg, labels=X_id, autopct='%.1f%%')
-    plt.title('2023년3월~4월사이에 인기 있는 장르 순 조회 인기')
+    #plt.pie(y_totalAvg, labels=X_id, autopct='%.1f%%')
+    #plt.title('2023년3월~4월사이에 인기 있는 장르 순 조회 인기')
+    plt.bar(X_id, y_totalAvg)
+    plt.xticks(rotation=15)
     plt.show()
 main()

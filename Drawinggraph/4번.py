@@ -66,10 +66,15 @@ query4=[
     }
   },
   {
-    "$sort": { "totalViews": -1 }
+    "$sort": { "_id": 1 }
   }
 ]
 
+def add_to_2d_array(arr, value1, value2):
+    arr.append([value1, value2])
+
+# 빈 2차원 배열 생성
+two_dimensional_array = []
 
 
 def main():
@@ -96,16 +101,21 @@ def main():
         print(str(document["_id"]))
         X_id.append(str(document["_id"]))
         y_totalViews.append(document["totalViews"])
+        #add_to_2d_array(two_dimensional_array, (document["_id"]), document["totalViews"])
+        # print(y_likes[0][0])
+        # 키 값을 이용하여 딕셔너리 선언
+
         print(str(document["_id"]))
     print(X_id)
     print(y_totalViews)
+
 
     plt.plot(X_id, y_totalViews)
     plt.xlabel('날짜')
     plt.ylabel('총 조회수')
     plt.xticks(X_id)
     plt.xticks(rotation=90)
-    plt.title('4월 엔터테인먼트 장르 중 일별 조회수 그래프 ')
+    #plt.title('4월 엔터테인먼트 장르 중 일별 조회수 그래프 ')
     plt.show()
 
 

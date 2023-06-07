@@ -66,9 +66,6 @@ query1=[
     "$sort": {
       "totalViewCount": -1
     }
-  },
-  {
-    "$limit": 5
   }
 ]
 
@@ -100,11 +97,12 @@ def main():
     print(X_id)
     print(y_totalViewCount)
     # 막대 그래프 그리기
-    plt.bar(X_id, y_totalViewCount)
+    plt.pie(y_totalViewCount, labels=X_id, autopct='%.1f%%')
     plt.xlabel('장르명')
     plt.ylabel('totalViewCount')
-    plt.xticks(X_id)
-    plt.title('2023년 4월에 조회수가 많은 장르 순으로 조회하기 ')
+    #plt.xticks(rotation=90)
+    #plt.xticks(X_id)
+    #plt.title('2023년 4월에 조회수가 많은 장르 순으로 조회하기 ')
     plt.show()
 
 

@@ -7,6 +7,7 @@ from datetime import datetime
 import urllib.parse
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
+import mplcursors
 plt.rcParams['font.family'] = 'Malgun Gothic'
 path='C:/Users/jmjun/OneDrive/바탕 화면/4학년 1학기/빅데이터시스템/유튜브 트렌드 프로젝트/graph_folder/'
 #1)2023년 4월에 조회수가 많은 장르 순으로 조회하기
@@ -50,14 +51,21 @@ category={
 query6=[
   {
     "$group": {
-      "_id": "$categoryId",
-      "totalComments": {"$sum": "$comment_count" }
+      "_id": "$title",
+      "likes": {"$sum": "$likes" },
+      "view_count": {"$sum": "$view_count" },
+      "comment_count": {"$sum": "$comment_count"},
+        "dislikes": {"$sum": "$dislikes" }
     }
-  },
-  {
-    "$sort": {"totalComments": -1 }
-  }
+  },{"$sort":{"commet_count":-1}}
 ]
+
+def add_to_2d_array(arr, value1, value2,value3):
+    arr.append([value1, value2, value3])
+
+# 빈 2차원 배열 생성
+two_dimensional_array = []
+
 
 
 def main():
@@ -77,23 +85,40 @@ def main():
 
     print(type(result))
     # 결과 출력
-    X_id = []
+
+    title=[]
+    y_viewcount=[]
+    y_likes=[]
+    y_dislikes = []
     y_totalComments = []
 
     for document in result:
-        X_id.append(category[str(document["_id"])])
-        y_totalComments.append(document["totalComments"])
-    print(X_id)
-    print(y_totalComments)
+        print(document)
+        title.append(str(document["_id"]))
+        y_viewcount.append(document["view_count"])
+        y_likes.append(document["likes"])
+        y_dislikes.append(document["dislikes"])
+        y_totalComments.append(document["comment_count"])
+        add_to_2d_array(two_dimensional_array,str(document["_id"]), (document["likes"]), document["dislikes"])
+    print(two_dimensional_array)
+
     # 막대 그래프 그리기
-    plt.bar(X_id, y_totalComments)
-    plt.xlabel('장르명')
-    plt.ylabel('totalViewCount')
-    plt.xticks(X_id)
-    plt.xticks(rotation=90)
-    plt.title('장르별 댓글이 가장 많은순 조회 ')
-    plt.savefig(path+'1번.png')
+
+    labels = title
+
+    fig, ax = plt.subplots()
+    line, = ax.plot(y_likes, y_dislikes, "ro")
+    mplcursors.cursor(ax).connect(
+        "add", lambda sel: sel.annotation.set_text(labels[sel.index]))
+
+
+    ax.set_xlabel('좋아요수')
+    ax.set_ylabel('싫어요수')
+
+
     plt.show()
+
+
 
 
 

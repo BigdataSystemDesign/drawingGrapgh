@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.family'] = 'Malgun Gothic'
 
 #1)2023년 4월에 조회수가 많은 장르 순으로 조회하기
-start_date = datetime(2023, 3, 1)
-end_date = datetime(2023, 3, 30, 23, 59, 59, 999000)
+start_date = datetime(2023, 4, 1)
+end_date = datetime(2023, 4, 30, 23, 59, 59, 999000)
 category={
    "1": "영화 & 애니메이션",
    "2": "자동차 & 차량",
@@ -68,7 +68,7 @@ query2=[
     }
   },
   {
-    "$limit": 20
+    "$limit": 10
   }
 ]
 
@@ -100,13 +100,15 @@ def main():
         y_averageViewCount.append(document["averageViewCount"])
         print(str(document["_id"]))
     print(X_id)
+    X_id2=['MrBeast', 'Kep1er', 'Apink', 'The Late Late Show with James Corden', 'STUDIO CHOOM', '백상예술대상',
+     'odg', '근황올림픽', 'KBS Kpop', "it's Live"]
     print(y_averageViewCount)
     # 막대 그래프 그리기
-    plt.bar(X_id, y_averageViewCount)
+    plt.bar(X_id2, y_averageViewCount)
     plt.xlabel('채널명')
     plt.ylabel('평균조회수')
-    plt.xticks(X_id)
+    plt.xticks(X_id2)
     plt.xticks(rotation=90)
-    plt.title('장르가 24(엔터테인먼트)인 채널 중 2023년 3월1일부터 2023년 3월 31일까지 올라온 영상의 조회수 평균이 높은 순으로 20개 채널 조회')
+    #plt.title('장르가 24(엔터테인먼트)인 채널 중 2023년 4월1일부터 2023년 4월 31일까지 올라온 영상의 조회수 평균이 높은 순으로 10개 채널 조회')
     plt.show()
 main()
