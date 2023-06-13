@@ -49,7 +49,7 @@ category={
 query2=[
   {
     "$match": {
-      "categoryId": 24,
+      "categoryId":10,
       "publishedAt": {
         "$gte": start_date,
         "$lte": end_date
@@ -100,8 +100,7 @@ def main():
         y_averageViewCount.append(document["averageViewCount"])
         print(str(document["_id"]))
     print(X_id)
-    X_id2=['MrBeast', 'Kep1er', 'Apink', 'The Late Late Show with James Corden', 'STUDIO CHOOM', '백상예술대상',
-     'odg', '근황올림픽', 'KBS Kpop', "it's Live"]
+    X_id2=['HYBE LABELS', 'BLACKPINK', 'starshipTV', 'THEBLACKLABEL', 'LEE CHAE YEON', 'SMTOWN', 'YOASOBI - Topic', 'NewJeans', 'BANGTANTV', 'JYP Entertainment']
     print(y_averageViewCount)
     # 막대 그래프 그리기
     plt.bar(X_id2, y_averageViewCount)

@@ -50,7 +50,7 @@ category={
 query4=[
   {
     "$match": {
-      "categoryId": 24,
+      "categoryId": 10,
       "publishedAt": {
         "$gte": start_date,
         "$lt": end_date

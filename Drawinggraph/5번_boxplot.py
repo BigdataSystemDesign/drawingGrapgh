@@ -51,7 +51,7 @@ category={
 query5=[
   {
     "$match": {
-      "categoryId": 24,
+      "categoryId": 10,
       "publishedAt": {
         "$gte": start_date,
         "$lt": end_date
@@ -78,7 +78,7 @@ query5=[
     "$project": {
       "_id": 0,
       "date": "$_id",
-      "videos": { "$slice": ["$videos", 100] }
+      "videos": 1
     }
   }, {
     "$sort": { "date": 1 }
@@ -130,9 +130,9 @@ def main():
             title_list.append(item["title"]) #제목 리스토로 뽑기
             all_data[date_result[-1]].append(item["likes"])
 
-    print("likes_list",len(likes_list))
-    print("date_result",date_result)
+    print("all_data",all_data)
     date_list = list(set(date_result))
+    date_list=date_list.sort()
     print("date_list", date_list)
     print(all_data)
     # 2. 데이터 준비
@@ -140,23 +140,20 @@ def main():
     # for key in all_data:
     #     value = all_data[key]
     #     print(f"{key}: {value}")
-
+    print(all_data.keys())
     for j,key in enumerate(all_data):
         globals()["data_{}".format(j)]=all_data[key]
-
-    print(len(all_data))
+        print(j,":",key)
+    print(all_data)
     # 3. 그래프 그리기
     fig, ax = plt.subplots()
     # fig, ax2 = plt.subplots()
     # ax.boxplot([data_0], notch=True, whis=2.5)
-
-    ax.boxplot([data_1,data_2,data_3,data_4,data_5,data_6,data_7,data_8,data_9,data_10,data_11,data_12,data_13,data_14,data_15,data_16,data_17,data_18,data_19,data_20,data_21,data_22,data_23,data_24,data_25,data_26,data_27,data_28,data_29], notch=True, whis=2.5)
-    #ax.boxplot([data_0])
-    ax.set_xticklabels(['2023-04-02', '2023-04-03', '2023-04-04', '2023-04-05', '2023-04-06', '2023-04-07', '2023-04-08','2023-04-09','2023-04-10', '2023-04-11', '2023-04-12', '2023-04-13','2023-04-14','2023-04-15','2023-04-16','2023-04-17','2023-04-18','2023-04-19', '2023-04-20', '2023-04-21', '2023-04-22', '2023-04-23','2023-04-24', '2023-04-25', '2023-04-26','2023-04-27','2023-04-28','2023-04-29','2023-04-30'],rotation = 90)
-    #ax.set_xticklabels(['2023-04-01'])
+    labels=title_list
+    ax.boxplot([data_0,data_1,data_2,data_3,data_4,data_5,data_6,data_7,data_8,data_9,data_10,data_11,data_12,data_13,data_14,data_15,data_16,data_17,data_18,data_20,data_21,data_22,data_23,data_24,data_25,data_26,data_27], notch=True, whis=2.5)
+    ax.set_xticklabels(['2023-04-01','2023-04-02', '2023-04-03', '2023-04-05', '2023-04-06', '2023-04-07', '2023-04-08','2023-04-09','2023-04-10', '2023-04-11', '2023-04-12', '2023-04-13','2023-04-14','2023-04-15','2023-04-16','2023-04-17','2023-04-18','2023-04-19', '2023-04-20', '2023-04-22', '2023-04-23','2023-04-24', '2023-04-25', '2023-04-26','2023-04-27','2023-04-28','2023-04-29'],rotation = 90)
     ax.set_ylabel('좋아요 수')
-
-    plt.title('4월 일별 가장 높은 좋아요수를 받은 동영상 Top 100 Boxplot ')
+    #plt.title('4월 일별 가장 높은 좋아요수를 받은 동영상 Top 100 Boxplot ')\
     plt.show()
 
 main()

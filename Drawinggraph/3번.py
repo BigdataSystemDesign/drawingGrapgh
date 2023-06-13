@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.family'] = 'Malgun Gothic'
 
 #1)2023년 4월에 조회수가 많은 장르 순으로 조회하기
-start_date = datetime(2023, 3, 1)
+start_date = datetime(2023, 4, 1)
 end_date = datetime(2023, 4, 30, 23, 59, 59, 999000)
 category={
    "1": "영화 & 애니메이션",
@@ -29,7 +29,7 @@ category={
    "26": "스타일",
    "27": "교육",
    "28": "과학 & 기술",
-    "29": "뉴스",
+   "29": "뉴스",
    "30": "영화",
    "31": "애니메이션",
    "32": "액션",
@@ -119,6 +119,8 @@ def main():
     #plt.pie(y_totalAvg, labels=X_id, autopct='%.1f%%')
     #plt.title('2023년3월~4월사이에 인기 있는 장르 순 조회 인기')
     plt.bar(X_id, y_totalAvg)
-    plt.xticks(rotation=15)
+    plt.xticks(rotation=90)
+    plt.xticks(fontsize=6)
+    plt.figure(figsize=(8, 6))
     plt.show()
 main()
